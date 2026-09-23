@@ -21,7 +21,7 @@ Reproducible causal-inference work from Faruk Muritala's STAT 7900 (Kennesaw Sta
 ## Slide deck and poster
 
 - **SEASUG 2026 slide deck** ("Applying Propensity Score Matching to Evaluate Interventions"): https://claude.ai/artifact/AyBa1KWEQAaeZRRyYbCUC5
-- **KSU Analytics Day poster**: in progress — link to be added here once published.
+- **KSU Analytics Day poster** ("The Smoking Gun"): https://claude.ai/artifact/Lkk6eUNAPb9n5V8tS3pDFm
 
 ## Data
 
