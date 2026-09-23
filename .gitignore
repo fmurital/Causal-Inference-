@@ -1,0 +1,11 @@
+# Raw / intermediate data (too large for git; see README for source + extraction steps)
+*.csv
+*.rds
+*.zip
+natality*.csv
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.Rhistory
+.Rproj.user/
