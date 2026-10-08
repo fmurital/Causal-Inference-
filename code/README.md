@@ -1,6 +1,6 @@
 # Maternal smoking in pregnancy and preterm birth: doubly robust (AIPTW) analysis
 
-Code for the SEASUG 2026 paper (Paper 103) by Faruk Muritala and Dhrubajyoti Ghosh, Kennesaw State University.
+Code for the SEASUG 2026 paper by Faruk Muritala and Dhrubajyoti Ghosh, Kennesaw State University.
 Data: 2023 U.S. Natality Public Use File (NCHS), 3,476,180 singleton births, 3,259,496 with complete data on all ten confounders.
 
 Everything uses R (tested with R 4.3.3) and a fixed random seed of 1234.

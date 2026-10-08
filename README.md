@@ -1,6 +1,6 @@
 # Does smoking in pregnancy cause preterm birth? A doubly robust (AIPTW) analysis of 3.26 million U.S. births
 
-SEASUG 2026, Paper 103: *Applying Propensity Score Matching to Evaluate Interventions*
+SEASUG 2026: *Applying Propensity Score Matching to Evaluate Interventions*
 
 **Authors:** Faruk Muritala and Dhrubajyoti Ghosh, Kennesaw State University
 
@@ -75,7 +75,7 @@ The estimate is consistent if either the propensity model or the outcome models 
 
 | Folder | Contents |
 |---|---|
-| `paper/` | The SEASUG 2026 paper (Word and PDF) |
+| `paper/` | The SEASUG 2026 paper (PDF) and its LaTeX source in `paper/latex/` |
 | `slides/` | The SEASUG 2026 presentation with speaker notes |
 | `code/` | R scripts 00 to 07, `run_all.sh`, and the data extract |
 | `output/` | Result tables from the run used for the paper (CSV) |
@@ -100,6 +100,10 @@ Needs R 4.3 or newer with the `data.table` and `ggplot2` packages (`install.pack
 | `06_draw_dag.R` | The causal diagram | seconds |
 | `07_paper_numbers.R` | Every number quoted in the paper | 1 min |
 | `05_variance_check.R` | Bootstrap check of the standard errors | about 40 min |
+
+## Paper source (LaTeX)
+
+The paper is typeset in LaTeX. To rebuild it, upload the contents of `paper/latex/` (`main.tex` and the `figures` folder) to a new Overleaf project and compile `main.tex` with pdfLaTeX (the Overleaf default). No extra packages are needed.
 
 ## AI assistance
 

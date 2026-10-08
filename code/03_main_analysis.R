@@ -181,7 +181,8 @@ p3 <- ggplot(fp, aes(RD_pp, estimator)) +
   geom_point(aes(colour = grepl("AIPTW", estimator)), size = 3.2) +
   scale_colour_manual(values = c(`FALSE` = NAVY, `TRUE` = ORANGE), guide = "none") +
   labs(x = "Risk difference in preterm birth (percentage points)", y = NULL,
-       title = "Adjustment lowers the crude risk difference by one-third to two-fifths") + theme_proj
+       title = "Adjustment lowers the crude risk difference by one-third to two-fifths") + theme_proj +
+  theme(plot.margin = margin(6, 24, 6, 6))   # room for the right end of the axis title
 ggsave("figures/fig_forest_rd.png", p3, width = 9, height = 4.2, dpi = 200)
 p4 <- ggplot(fp, aes(OR, estimator)) +
   geom_vline(xintercept = 1, colour = GRAY) +
