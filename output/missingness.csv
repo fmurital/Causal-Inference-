@@ -1,0 +1,11 @@
+variable,n_missing,pct_missing
+age_grp,0,0
+race,0,0
+educ,58558,1.69
+precare,61898,1.78
+wic,34051,0.98
+parity,7596,0.22
+ppterm,4380,0.13
+pdiab,4380,0.13
+phype,4380,0.13
+bmi_grp,75051,2.16

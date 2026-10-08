@@ -1,0 +1,14 @@
+quantity,value
+PS 1st percentile (clamp lower bound),0.00015944689357263
+PS 99th percentile (clamp upper bound),0.163213031364927
+PS median among smokers,0.0581800307085493
+PS median among non-smokers,0.0184775222491792
+% of non-smokers with PS < 0.01,40.7927878015716
+% of non-smokers with PS < 0.05,81.3045467726272
+% of smokers with PS < 0.01,4.05815592620412
+% of smokers with PS > 0.10,21.1550927593197
+% of smokers whose PS was clamped to the lower bound,0.0133762746046282
+% of non-smokers whose PS was clamped to the lower bound,1.03032309619332
+"max stabilized weight, smokers",187.000023649583
+"effective n, smokers (of 97,187)",6806.52466523986
+share of total smoker weight carried by top 1% of smokers,23.16019022711

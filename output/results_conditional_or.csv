@@ -1,0 +1,3 @@
+estimator,OR,OR_lo,OR_hi
+Adjusted logistic regression (conditional OR),1.41643473205335,1.38870506799697,1.44471810206674
+PS-quintile Mantel-Haenszel (conditional OR),1.47538610683492,1.44754643814775,1.50376119679231

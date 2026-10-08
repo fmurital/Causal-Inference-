@@ -1,0 +1,4 @@
+step,n,pct_of_extract
+Singleton live births with known gestational age and known smoking status (extract),3476180,100
+Exclude births to non-U.S.-resident mothers (restatus = 4),3467679,99.76
+Keep births with complete data on all ten confounders (analytic cohort),3259496,93.77

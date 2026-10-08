@@ -1,10 +1,10 @@
-# Raw / intermediate data (too large for git; see README for source + extraction steps)
-*.csv
+# Large intermediate files created when the code is run
 *.rds
-*.zip
+code/data/nvss2023_extract.csv
 natality*.csv
+natality*.zip
 
-# OS / editor cruft
+# OS / editor files
 .DS_Store
 Thumbs.db
 *.Rhistory
