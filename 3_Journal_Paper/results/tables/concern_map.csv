@@ -1,0 +1,7 @@
+concern,where,result
+1 Adjustment set,"Section 5.4, 5.6",Pre-pregnancy set: 3.65 vs main 3.26
+2 Overlap and imbalance,Section 6,41% of non-smokers have score < 0.01; largest SMD after weighting 0.131
+3 Variance and bootstrap,Section 7,"IF SE 0.399, bootstrap SE 0.388 (ratio 0.97)"
+"4 Flexible, cross-fitted models",Section 8,Cross-fitted RD: Logistic_main 3.22; Lasso_interactions 2.80; Random_forest 2.30; Average_of_3 2.84
+5 Novelty and public health,Section 12.1 (numbers); introduction text,"34 excess preterm births per 1,000 smoking pregnancies"
+"6 Intensity, timing, cessation",Sections 9 and 10,Continued vs quit: 3.08; quit vs never-smokers: -0.07 among quitters (whole-population version 0.53)

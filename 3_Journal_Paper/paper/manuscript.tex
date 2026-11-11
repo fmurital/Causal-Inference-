@@ -1,0 +1,166 @@
+\documentclass[11pt,letterpaper]{article}
+\input{preamble}
+\input{gen/numbers}
+\graphicspath{{figs/}}
+\newcommand{\todo}[1]{{\color{red}\textbf{[#1]}}}
+\hypersetup{pdftitle={Smoking during pregnancy and preterm birth: a doubly robust analysis of U.S. births},pdfauthor={Faruk Muritala and Dhrubajyoti Ghosh}}
+\fancyfoot[C]{\footnotesize\textcolor{gray}{Muritala and Ghosh \,|\, Page \thepage}}
+\begin{document}
+\begin{center}
+{\LARGE\bfseries\sffamily\color{navy} Smoking during pregnancy and preterm birth:\\ a doubly robust analysis of 3.26 million U.S. births}\\[10pt]
+{\bfseries Faruk Muritala and Dhrubajyoti Ghosh, Ph.D.}\\[2pt]
+Kennesaw State University, Georgia, USA
+\end{center}
+\begin{abstract}
+\noindent Smoking during pregnancy is a modifiable risk factor for preterm birth, but large U.S. analyses report adjusted odds ratios and do not show how much of the estimate rests on comparable mothers. The effect of smoking on preterm birth (under 37 weeks) was estimated on the absolute risk scale in \NTotal{} singleton live births from the 2023 U.S. Natality Public Use File (\NSmokers{} to mothers who smoked), with augmented inverse probability of treatment weighting (AIPTW) and ten confounders chosen from a causal diagram. The crude risk difference of \CrudeRD{} percentage points became \RDmain{} (95\% bootstrap CI \BootLo{} to \BootHi{}) after adjustment, a risk ratio of \RRmain{}. The effect among mothers who smoked was \ATT{} points (\ATTlo{} to \ATThi{}), about \ExcessPerK{} additional preterm births per 1,000 smoking pregnancies. The full-sample bootstrap standard error was \SEboot{}, against \SEif{} from the influence function. Estimates ranged from \RangeMin{} to \RangeMax{} across propensity score handling rules and covariate sets, and from \CFForest{} to \CFLasso{} with cross-fitted LASSO and random forest models. Overlap was limited (\LowNon{}\% of non-smokers had an estimated probability of smoking below 0.01) and the E-value was \EV{}. In an exploratory comparison, continuing to smoke instead of quitting added \ContQuit{} points. The results hold under the stated causal assumptions and self-reported smoking.
+
+\smallskip\noindent\textbf{Keywords:} causal inference, doubly robust estimation, AIPTW, cross-fitting, overlap, preterm birth, maternal smoking, E-value
+\end{abstract}
+
+\section*{1. Introduction}
+
+Preterm birth, delivery before 37 completed weeks of gestation, affected 10.41\% of U.S. births in 2023 (Martin et al., 2024). Cigarette smoking during pregnancy is one of the few causes that can be changed. The share of U.S. mothers who smoked during pregnancy fell from 7.2\% in 2016 to 4.6\% in 2021, and the decline left large differences between groups, with the highest rates among non-Hispanic American Indian or Alaska Native (12.7\%) and non-Hispanic White (6.7\%) mothers (Martin et al., 2023).
+
+The strongest recent evidence on smoking and preterm birth comes from birth certificates. A study of 25,623,479 U.S. singleton births from 2011 to 2018 reported adjusted odds ratios for preterm birth that rose with cigarettes smoked per day, from 1.31 for one to two cigarettes to 1.53 for twenty or more in the first trimester, and found risk comparable to non-smokers among women who quit before pregnancy (Liu et al., 2020). A commentary noted that studies of this question disagree, that cessation subgroups are small, and that results depend on how pre-pregnancy quitters are classified and when smoking is measured (Stock \& Bauld, 2020). Other natality-file analyses use regression to estimate odds ratios and, in one case, report E-values for unmeasured confounding (Kondracki, 2020).
+
+Three limits follow from this work. Odds ratios from one logistic regression depend on that model being correct, and they do not give the absolute change in risk used to plan services. Regression does not show whether smokers and non-smokers overlap on the measured characteristics, so a reader cannot tell how much of an estimate rests on comparable mothers and how much on extrapolation. The adjustment set is rarely tied to a causal diagram that separates characteristics fixed before pregnancy from those recorded during it.
+
+This study addresses these limits with the 2023 U.S. natality file. Ten confounders were chosen from a causal diagram. The effect of smoking on preterm birth was estimated as an absolute risk difference with AIPTW, which remains consistent if either the propensity model or the outcome model is correct (Bang \& Robins, 2005). Overlap was examined through the propensity score distribution, the effective sample size and covariate balance. The standard error was checked against a full-sample bootstrap, the nuisance models were fitted flexibly with cross-fitting (Chernozhukov et al., 2018), and the estimate was repeated under alternative propensity score rules and covariate sets. The E-value quantifies the strength of an unmeasured confounder needed to explain the estimate away (VanderWeele \& Ding, 2017). Smoking before and during pregnancy was then used to compare mothers who continued to smoke with mothers who stopped.
+
+\section*{2. Data}
+
+\textbf{Source and cohort.} The 2023 Natality Public Use File of the National Center for Health Statistics contains \NExtract{} singleton live births with known gestational age and smoking status in the extract used here (NCHS, 2024). After excluding births to non-residents (\NResident{} remaining) and births with any missing confounder, \NTotal{} births (\PctKept{}\% of the extract) were analysed; \NSmokers{} (\PrevSmoke{}\%) were to mothers who reported smoking during pregnancy. Complete-case births were less likely to be preterm than the \NDropped{} births dropped (\KeptPreterm{}\% against \DroppedPreterm{}\%; Appendix Table A2).
+
+\textbf{Exposure and outcome.} The exposure is any cigarette smoking during pregnancy (\texttt{CIG\_REC}), self-reported on the birth certificate. The outcome is preterm birth, a gestational age under 37 completed weeks by the obstetric estimate (\texttt{OEGEST\_COMB}) (Martin et al., 2015).
+
+\textbf{Confounders.} Ten confounders were selected from the causal diagram in Figure~1: maternal age, race and Hispanic origin, education, timing of prenatal care, WIC participation, parity, previous preterm birth, pre-pregnancy diabetes, pre-pregnancy hypertension and pre-pregnancy body mass index. Age and BMI enter as categories, so no straight-line assumption is made. Appendix Table A1 lists every variable, its levels and its share of missing values. The diagram documents the evidence for each arrow (Tennant et al., 2021; Pearl, 1995). Prenatal-care timing and WIC are recorded during pregnancy and may be influenced by smoking or by the length of the pregnancy (Shin \& Song, 2019; Joyce et al., 2008), so every analysis was repeated without them.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=6.2in]{fig_dag.png}
+\caption*{\textbf{Figure 1.} \emph{Causal diagram. Orange: exposure ($T$). Navy: outcome ($Y$). Each confounder is a parent of both; dashed blue arrows are assumed relationships among confounders.}}
+\end{figure}
+
+\section*{3. Methods}
+
+\textbf{Estimand.} With potential outcomes $Y(1)$ and $Y(0)$, the average treatment effect is $\mathrm{ATE}=\mathbb{E}[Y(1)]-\mathbb{E}[Y(0)]$, the difference in preterm risk if every mother smoked against if none did. The average effect among mothers who smoked (ATT) answers the question for the group exposed. Identification requires conditional exchangeability given the ten confounders, positivity and consistency.
+
+\textbf{AIPTW.} Let $e(X)=P(T=1\mid X)$ and $\mu_t(X)=P(Y=1\mid T=t,X)$. The estimator is
+\begin{equation}
+\hat\psi_t=\frac1n\sum_{i=1}^{n}\left[\hat\mu_t(X_i)+\frac{\mathbb{1}(T_i=t)\,\big(Y_i-\hat\mu_t(X_i)\big)}{\hat P(T_i=t\mid X_i)}\right],\qquad \widehat{\mathrm{ATE}}=\hat\psi_1-\hat\psi_0 .
+\end{equation}
+The main analysis uses logistic regression for both models and clamps $\hat e$ at its 1st and 99th percentiles (Funk et al., 2011). Stabilized inverse probability weighting, outcome regression and overlap weights (Li et al., 2018) are reported alongside.
+
+\textbf{Variance.} The standard error is the empirical standard deviation of the estimated influence function divided by $\sqrt n$. It was compared with a full-sample bootstrap in which the propensity model, both outcome models and the estimator were refitted on each of \BootB{} resamples. Because the data collapse to 65,787 covariate cells, resampling the cell counts multinomially is equivalent to resampling births.
+
+\textbf{Flexible nuisance models.} The propensity and outcome models were also fitted by LASSO with all two-way interactions (3-fold cross-validated penalty) and by random forests, each with 5-fold cross-fitting, so that every birth is scored by a model that did not see it (Chernozhukov et al., 2018; Zivich \& Breskin, 2021). The split was repeated \CFreps{} times with different seeds. Calibration of predicted against observed risk was checked for each learner.
+
+\textbf{Overlap and balance.} Standardized mean differences (SMD) were computed for every covariate level before and after weighting; $|{\rm SMD}|>0.10$ was treated as imbalance (Austin \& Stuart, 2015).
+
+\textbf{Smoking history.} The extract records cigarettes per day before pregnancy. Mothers who smoked before but not during pregnancy ("quit") were compared with those who continued, and with those who never smoked. Among those who continued, the effect was estimated by pre-pregnancy intensity. These comparisons are exploratory because intensity during pregnancy and trimester are not in the extract.
+
+\textbf{Sensitivity.} The risk difference was re-estimated without clamping, with clamping at 0.1/99.9 and 5/95 percentiles, after deleting births with scores outside 0.01 to 0.99, without prenatal-care timing and WIC, with insurance type added, and with two-way interactions. The E-value is $\mathrm{RR}+\sqrt{\mathrm{RR}(\mathrm{RR}-1)}$ (VanderWeele \& Ding, 2017), and measured confounders were used as benchmarks.
+
+\textbf{Software.} All analyses used R with a fixed seed (1234). One script, \texttt{Smoking\_Preterm\_Full\_Analysis.R}, produces every number and figure.
+
+\section*{4. Results}
+
+\textbf{Unadjusted comparison.} Preterm birth occurred in \PretermSmk{}\% of mothers who smoked and \PretermNon{}\% of those who did not, a crude risk difference of \CrudeRD{} points (\CrudeLo{} to \CrudeHi{}) (Figure 2). Smoking was concentrated in specific groups: \SmkNoDip{}\% of mothers with 9 to 12 years of schooling and no diploma smoked, against \SmkDoc{}\% of those with a doctorate.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{fig_eda_who_smokes.png}
+\caption*{\textbf{Figure 2.} \emph{Percentage of mothers who smoked during pregnancy by education, age and race and ethnicity.}}
+\end{figure}
+
+\textbf{Main estimate.} After AIPTW adjustment the risk difference was \RDmain{} points (bootstrap 95\% CI \BootLo{} to \BootHi{}), a risk ratio of \RRmain{} (Table 1, Figure 3). Adjustment reduced the crude difference by \ReducePct{}\%. Outcome regression gave \RDg{} and stabilized IPTW \RDiptw{} (\RDiptwLo{} to \RDiptwHi{}). Among mothers who smoked, the effect was \ATT{} points (\ATTlo{} to \ATThi{}), about \ExcessPerK{} additional preterm births per 1,000 smoking pregnancies or \ExcessBirths{} births in this cohort if the assumptions hold.
+
+\begin{table}[htbp]
+\centering
+\caption*{\textbf{Table 1.} \emph{Effect of smoking during pregnancy on preterm birth. Risk difference in percentage points. Intervals are from the influence function; the bootstrap interval for the AIPTW estimate is \BootLo{} to \BootHi{}.}}
+\input{gen/tab_main}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=5.8in]{f7_robust.png}
+\caption*{\textbf{Figure 3.} \emph{Risk difference under alternative propensity score handling and covariate sets.}}
+\end{figure}
+
+\textbf{Robustness to model and specification choices.} The risk difference ranged from \RangeMin{} to \RangeMax{} points across all specifications (Table 2). Removing prenatal-care timing and WIC gave \RDPre{} (\RDPreLo{} to \RDPreHi{}), a shift of \PreShift{} points, the largest change among the specifications examined. Without any clamping the estimate was \RDnoclamp{}, with a largest weight of \MaxWtNone{}, against \MaxWtClamp{} with clamping.
+
+\begin{table}[htbp]
+\centering
+\caption*{\textbf{Table 2.} \emph{AIPTW risk difference under alternative covariate sets and propensity score rules.}}
+\input{gen/tab_spec}
+\end{table}
+
+\textbf{Overlap and balance.} The propensity score separated the groups only partly (Figure 4). \LowNon{}\% of non-smokers, but \LowSmk{}\% of smokers, had a score below 0.01, and \LowBachSum{}\% of the non-smokers in that low group held a bachelor's degree or higher, the group in which smoking is rare. The largest SMD fell from \SMDbefore{} before weighting to \SMDafter{} after IPTW (\BalAfter{} of \NLevels{} levels above 0.10, down from \BalBefore{}) and to \SMDov{} with overlap weights. The largest stabilized weight among smokers was \MaxWtClamp{} and the effective sample size of the weighted smokers was \ESSclamp{} of \NSmokers{}.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{f6_overlap.png}
+\caption*{\textbf{Figure 4.} \emph{Estimated probability of smoking by smoking status, with the share of non-smokers below 0.01 and covariate balance before and after weighting.}}
+\end{figure}
+
+\textbf{Variance.} The bootstrap standard error was \SEboot{} points (percentile 95\% CI \BootLo{} to \BootHi{}) against \SEif{} from the influence function, a ratio of \SEratio{} (Appendix Table A3). The two standard errors are nearly identical, so the influence-function standard error is reliable here; the bootstrap percentile interval is reported as the primary interval.
+
+\textbf{Flexible models.} With cross-fitting, the risk difference was \CFLog{} with logistic regression, \CFLasso{} with LASSO and \CFForest{} with random forests; the average of the three was \CFAvg{} (Table 3, Figure 5). The 95\% intervals overlap those of the main estimate. Calibration of each learner is reported in Appendix Table A4.
+
+\begin{table}[htbp]
+\centering
+\caption*{\textbf{Table 3.} \emph{Cross-fitted AIPTW with three learners (clamped at 1/99 percentiles).}}
+\resizebox{\textwidth}{!}{\input{gen/tab_cf}}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{f8_flex.png}
+\caption*{\textbf{Figure 5.} \emph{Cross-fitted estimates by learner, and influence-function against bootstrap standard errors.}}
+\end{figure}
+
+\textbf{Smoking history and intensity (exploratory).} Crude preterm risk was \HistNever{}\% in mothers who never smoked, \HistQuit{}\% in those who quit, \HistCont{}\% in those who continued and \HistStart{}\% in those who started during pregnancy (Appendix Table A5). Comparing continuers with quitters, adjusted for the confounders and pre-pregnancy intensity, gave \ContQuit{} points (\ContQuitLo{} to \ContQuitHi{}). Quitters compared with never-smokers differed by \QuitNever{} points among quitters (\QuitNeverLo{} to \QuitNeverHi{}) and by \QuitNeverATE{} points in the whole population (Figure 6).
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{f9_cess.png}
+\caption*{\textbf{Figure 6.} \emph{Effect among those who smoked by smoking history and by pre-pregnancy cigarettes per day.}}
+\end{figure}
+
+\textbf{Timing of smoking by trimester.} \todo{Trimester analysis to be added once the full 2023 natality file (which records cigarettes per day in each trimester) has been processed with Section 10 of the script. Planned contrasts: first trimester only, first and second trimesters, all three trimesters, and third-trimester dose, each against mothers who never smoked.}
+
+\textbf{Unmeasured confounding.} The E-value for the point estimate was \EV{} and for the lower confidence limit \EVlo{}. Previous preterm birth, the strongest measured predictor of preterm birth, changed the estimate by \PPChange{} points when left out and education by \EducChange{} points; previous preterm birth is the only measured level whose association with both smoking (risk ratio 2.42) and preterm birth (3.42) exceeds the E-value, and omitting it moves the estimate by only \PPChange{} points (Appendix Table A6).
+
+\section*{5. Discussion}
+
+In 2023 U.S. singleton births, smoking during pregnancy raised the risk of preterm birth by about \RDmain{} percentage points (risk ratio \RRmain{}) under the stated assumptions, which is \ReducePct{}\% less than the crude difference. The adjusted marginal odds ratio of 1.44 lies inside the 1.31 to 1.53 range reported for first-trimester smoking by cigarettes per day in a regression analysis of 25.6 million births (Liu et al., 2020). Among mothers who smoked, the effect translates to about \OneIn{} smoking pregnancies for each additional preterm birth, which gives health departments a count to use when comparing cessation programs.
+
+Four findings support the stability of the result. The standard error did not change materially when the whole pipeline was resampled. The estimate moved little when the nuisance models were flexible and cross-fitted. It stayed within \RangeMin{} to \RangeMax{} points across specifications. And the overlap-weighted estimate, which targets mothers with comparable counterparts, was \ATO{} points. The exposure-history comparison is consistent with a benefit of stopping smoking, but it is exploratory and was adjusted only for the covariates and pre-pregnancy intensity in the extract.
+
+\section*{6. Limitations}
+
+Smoking is self-reported on the birth certificate and is underreported (Dietz et al., 2011; Howland et al., 2015; Searles Nielsen et al., 2014). Non-differential misclassification of a binary exposure usually biases toward the null (Jurek et al., 2005). Overlap is limited: \LowNon{}\% of non-smokers have a score below 0.01, concentrated among mothers with a college degree, so the ATE depends on few smokers with large weights. The ATT, which needs weights only for non-smokers, and the overlap-weighted estimate are less affected. Prenatal-care timing and WIC may follow smoking, and the estimate without them was \RDPre{}. Complete-case analysis excluded \NDropped{} births, whose preterm risk was higher (\DroppedPreterm{}\% against \KeptPreterm{}\%). The file contains live births only (Leung et al., 2021). Alcohol, cannabis, e-cigarettes, stress and interpregnancy interval are unmeasured (Patra et al., 2011; Regan et al., 2021). ``Any smoking'' averages over dose and timing. Intensity during pregnancy and trimester of smoking are not in the 24-variable extract; they are in the full natality file and are analysed in the trimester section. The results are for one national year.
+
+\section*{7. Conclusion}
+
+In \NTotal{} singleton births, the AIPTW risk difference for preterm birth was \RDmain{} percentage points (95\% bootstrap CI \BootLo{} to \BootHi{}), \ATT{} points among mothers who smoked. The estimate was stable across bootstrap, flexible learners and specification changes, and it rests on limited overlap, self-reported smoking and assumptions the E-value quantifies but cannot verify.
+
+\section*{Data and code availability}
+
+The data are the public-use 2023 Natality file of the National Center for Health Statistics (\url{https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Datasets/DVS/natality/Nat2023us.zip}). The 24-variable extract and the script \texttt{Smoking\_Preterm\_Full\_Analysis.R} are in the project repository (\url{https://github.com/fmurital/Causal-Inference-}, folder \texttt{3\_Journal\_Paper}); the script reads the extract directly from the repository and runs from one file with seed 1234.
+
+\section*{Use of AI assistance}
+
+The authors used an AI assistant (Claude, Anthropic) to organize the literature, to help write and test the R code, and to draft and edit text. The first author specified the question, the design and the analytic choices and ran the code. The numbers come directly from the code output. Both authors are responsible for the content.
+
+\input{refs_ms}
+
+\appendix
+\section*{Appendix}
+\begin{table}[htbp]\centering\caption*{\textbf{Table A1.} \emph{Analysis variables: how each is stored, its levels and missing values.}}\input{gen/tab_dict}\end{table}
+\begin{table}[htbp]\centering\caption*{\textbf{Table A2.} \emph{Complete-case births compared with births dropped for missing confounders.}}\input{gen/tab_cc}\end{table}
+\begin{table}[htbp]\centering\caption*{\textbf{Table A3.} \emph{Variance check.}}\input{gen/tab_var}\end{table}
+\begin{table}[htbp]\centering\caption*{\textbf{Table A4.} \emph{Calibration of cross-fitted learners: predicted against observed.}}\resizebox{\textwidth}{!}{\input{gen/tab_cfcal}}\end{table}
+\begin{table}[htbp]\centering\caption*{\textbf{Table A5.} \emph{Smoking history, exploratory.}}\resizebox{\textwidth}{!}{\input{gen/tab_hist}}\end{table}
+\begin{table}[htbp]\centering\caption*{\textbf{Table A6.} \emph{Measured covariates as benchmarks for the E-value.}}\resizebox{\textwidth}{!}{\input{gen/tab_bench}}\end{table}
+\end{document}

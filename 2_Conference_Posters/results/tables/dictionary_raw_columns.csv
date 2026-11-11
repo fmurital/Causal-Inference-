@@ -1,0 +1,17 @@
+column,stored_as,meaning
+mager,number (years),Mother's age in whole years
+mrace6,code 1-6,Mother's race (6 groups)
+meduc,code 1-9,"Mother's education (8 levels, 9 = unknown)"
+precare5,code 1-5,"Prenatal care began: 1 = first trimester ... 4 = none, 5 = unknown"
+wic,letter Y/N/U,Received WIC food assistance
+priorlive,number,Previous births still living
+priordead,number,Previous births now deceased
+rf_ppterm,letter Y/N/U,Previous preterm birth
+rf_pdiab,letter Y/N/U,Diabetes before pregnancy
+rf_phype,letter Y/N/U,Hypertension before pregnancy
+bmi,number (kg/m2),Pre-pregnancy body mass index (99.9 = unknown)
+cig_0,number (cigarettes/day),Cigarettes per day in the 3 months before pregnancy (99 = unknown)
+cig_rec,letter Y/N,Smoked at any time during pregnancy (the exposure)
+oegest_comb,number (weeks),Gestational age at birth in weeks (the outcome is < 37)
+pay_rec,"code 1-4, 9",Payer: 1 Medicaid 2 Private 3 Self-pay 4 Other
+restatus,code 1-4,Residence: 4 = not a U.S. resident (excluded)

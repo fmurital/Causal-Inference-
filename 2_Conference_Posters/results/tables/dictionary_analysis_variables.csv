@@ -1,0 +1,18 @@
+variable,type,n_levels,levels_or_range,pct_missing
+smoker,integer,,0 to 1,0
+preterm,integer,,0 to 1,0
+ga_weeks,integer,,17 to 47,0
+mager,integer,,12 to 50,0
+age_grp,factor,6,<20 | 20-24 | 25-29 | 30-34 | 35-39 | 40+,0
+race,factor,6,White | Black | AIAN | Asian | NHOPI | Multiracial,0
+educ,factor,8,"<9th grade | 9-12th, no diploma | HS grad/GED | Some college | Associate | Bachelor's | Master's | Doctorate/Prof.",1.69
+precare,factor,4,1st trimester | 2nd trimester | 3rd trimester | No care,1.78
+wic,factor,2,No | Yes,0.98
+parity,factor,4,0 | 1 | 2 | 3+,0.22
+ppterm,factor,2,No | Yes,0.13
+pdiab,factor,2,No | Yes,0.13
+phype,factor,2,No | Yes,0.13
+bmi,numeric,,13 to 69.9,2.16
+bmi_grp,factor,6,<18.5 | 18.5-24.9 | 25-29.9 | 30-34.9 | 35-39.9 | 40+,2.16
+pay,factor,5,Medicaid | Private | Self-pay | Other | Unknown,0
+cig_0,integer,,0 to 99,0

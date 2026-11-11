@@ -1,11 +1,15 @@
 # Large intermediate files created when the code is run
 *.rds
-code/data/nvss2023_extract.csv
-natality*.csv
-natality*.zip
+**/data/nvss2023_extract.csv
+**/data/natality*.csv
+**/data/natality*.zip
 
 # OS / editor files
 .DS_Store
 Thumbs.db
 *.Rhistory
 .Rproj.user/
+
+*.aux
+*.log
+*.out
