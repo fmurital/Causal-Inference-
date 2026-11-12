@@ -1,4 +1,4 @@
-> **Part 1 of the project.** This folder is the SEASUG (CSOL) 2026 work exactly as it was presented. It is kept unchanged so that the conference results can always be reproduced. Later work is in [`../2_Conference_Posters`](../2_Conference_Posters) (what changed since CSOL is in `UPDATES_SINCE_CSOL.md`) and [`../3_Journal_Paper`](../3_Journal_Paper). The project overview is in the [root README](../README.md).
+> **Part 1 of the project.** The SEASUG (CSOL) 2026 work as presented. Later work: [`2_Conference_Posters`](../2_Conference_Posters) and [`3_Journal_Paper`](../3_Journal_Paper).
 
 # Does smoking in pregnancy cause preterm birth? A doubly robust (AIPTW) analysis of 3.26 million U.S. births
 
@@ -82,31 +82,3 @@ The estimate is consistent if either the propensity model or the outcome models 
 | `code/` | R scripts 00 to 07, `run_all.sh`, and the data extract |
 | `output/` | Result tables from the run used for the paper (CSV) |
 | `figures/` | Figures used in the paper and slides |
-
-## How to run
-
-Needs R 4.3 or newer with the `data.table` and `ggplot2` packages (`install.packages(c("data.table", "ggplot2"))`). About 8 GB of memory.
-
-1. Download or clone this repository and keep the folder structure.
-2. In a terminal, go into the `code` folder and run `bash run_all.sh`. On Windows without bash, open R, run `setwd("path/to/code")`, then run `source("01_prepare_data.R")`, `source("02_eda.R")` and so on in the order in the table below.
-3. Results are written to `output/` and `figures/` inside the `code` folder.
-
-| Script | What it does | Run time |
-|---|---|---|
-| `00_extract_data.R` | Optional. Rebuilds the extract from the original government file | 3 to 8 min |
-| `01_prepare_data.R` | Cleaning, complete cases, cohort flow | 1 min |
-| `02_eda.R` | Table 1 and exploratory figures | 2 min |
-| `03_main_analysis.R` | Propensity model, five estimators, balance, E-value | 5 to 10 min |
-| `04_sensitivity.R` | Propensity score handling grid, covariate specifications, subgroups | 45 to 60 min |
-| `04b_sensitivity_figures.R` | Robustness and subgroup figures | seconds |
-| `06_draw_dag.R` | The causal diagram | seconds |
-| `07_paper_numbers.R` | Every number quoted in the paper | 1 min |
-| `05_variance_check.R` | Bootstrap check of the standard errors | about 40 min |
-
-## Paper source (LaTeX)
-
-The paper is typeset in LaTeX. To rebuild it, upload the contents of `paper/latex/` (`main.tex` and the `figures` folder) to a new Overleaf project and compile `main.tex` with pdfLaTeX (the Overleaf default). No extra packages are needed.
-
-## AI assistance
-
-The authors used an AI assistant (Claude, Anthropic) to organize and check the literature, to help write and test the R code, and to draft and edit text. The first author specified the question, the design and the analytic choices and ran the code. The numbers in the paper come directly from the code output.

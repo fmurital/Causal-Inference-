@@ -13,3 +13,7 @@ Thumbs.db
 *.aux
 *.log
 *.out
+
+# Files created when the script is run
+code/data/
+code/results/

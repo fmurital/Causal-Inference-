@@ -1,27 +1,21 @@
 # Journal Paper
 
-**Smoking During Pregnancy and Preterm Birth: A Doubly Robust Analysis of U.S. Births**
+Manuscript: [Manuscript.pdf](Manuscript.pdf)
 
-Faruk Muritala and Dhrubajyoti Ghosh, Ph.D., Kennesaw State University.
+Structured for BMC Pregnancy and Childbirth: Abstract, Background, Methods (data, causal assumptions, AIPTW, cross-fitting, sensitivity analyses), Results, Discussion, Conclusions, Declarations, and Additional file 1.
 
-This folder holds the manuscript in preparation for journal submission, with the code, tables and figures it is built from. It builds on the SEASUG (CSOL) 2026 paper in [`../1_CSOL_SEASUG_2026_Presentation`](../1_CSOL_SEASUG_2026_Presentation) and the posters in [`../2_Conference_Posters`](../2_Conference_Posters).
+## What changed since the posters
 
-| Path | Contents |
-|---|---|
-| `paper/manuscript.pdf` | The current draft (compiled) |
-| `paper/manuscript.tex` | LaTeX source; numbers are inserted from `paper/gen/numbers.tex`, so no figure in the text is typed by hand |
-| `paper/gen/` | Numbers and table fragments generated from the result tables by `paper/make_numbers.py` |
-| `paper/figs/` | Figures used in the manuscript |
-| `paper/preamble.tex`, `paper/refs_ms.tex` | Page setup and reference list |
-| `code/` | `Smoking_Preterm_Full_Analysis.R`, the single script that produces every number and figure |
-| `results/tables/` | Result tables from the full run (CSV) |
-| `UPDATES.md` | What the draft adds to the CSOL paper, and what is still open |
+The assumptions (consistency, exchangeability, positivity) have their own section, the five-fold cross-fitting is described step by step, and the paper adds the trimester of smoking.
 
-## Rebuild the paper
+## Major contribution
 
-1. Upload the contents of `paper` to a new Overleaf project and compile `manuscript.tex` with pdfLaTeX (the default). No extra packages are needed.
-2. To regenerate the numbers after a new run, copy the result tables into `results/tables`, then run `python3 paper/make_numbers.py` from the `paper` folder.
+An absolute-risk, doubly robust estimate of the effect of smoking in pregnancy on preterm birth in 3.26 million U.S. births, with overlap checks, cross-fitted flexible models, an E-value, and the effect by trimester and by cigarettes per day.
 
-## Status
+## Code
 
-Draft for review by the authors. The trimester-of-smoking results (Appendix Table A7) come from the full natality file, stored in compact form in the `data` folder.
+[`../code/Smoking_Preterm_Full_Analysis.R`](../code/Smoking_Preterm_Full_Analysis.R). Select all and run. LaTeX source, figures and result tables used by the manuscript are in [`source`](source).
+
+## Data
+
+[`../data`](../data)
