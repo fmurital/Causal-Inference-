@@ -24,4 +24,4 @@ This folder holds the manuscript in preparation for journal submission, with the
 
 ## Status
 
-Draft for review by the authors. The trimester-of-smoking section is marked in red in the manuscript and will be completed when the trimester data file is added to the `data` folder.
+Draft for review by the authors. The trimester-of-smoking results (Appendix Table A7) come from the full natality file, stored in compact form in the `data` folder.

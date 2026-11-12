@@ -1,10 +1,10 @@
 # Builds numbers.tex (macros) and table fragments from the result tables written by Smoking_Preterm_Full_Analysis.R
 import pandas as pd, numpy as np, re, os
-T="../results/tables/"; OUT="gen/"; os.makedirs(OUT,exist_ok=True)
+T="../yourrun/results/tables/"; OUT="gen/"; os.makedirs(OUT,exist_ok=True)
 import os as _os
 def R(f):
     p=T+f
-    if not _os.path.exists(p): p="../results/tables/"+f; print("fallback to earlier run for",f)
+    if not _os.path.exists(p): p="../run/results/tables/"+f; print("fallback to earlier run for",f)
     return pd.read_csv(p)
 def esc(s):
     s=str(s)
@@ -157,6 +157,21 @@ for r in h.itertuples():
 table("tab_hist.tex",7,"Comparison & Group size & Crude & ATE & 95\\% CI & ATT & 95\\% CI",rows,"lrrrrrr")
 hc2=R("history_crude.csv"); rows=[[esc(r.hist),f0(r.births),f2(r.preterm_pct)] for r in hc2.itertuples()]
 table("tab_histcrude.tex",3,"Smoking history & Births & \\% preterm",rows,"lrr")
+# ---- trimester of smoking (full natality file, Section 10)
+tc=R("trimester_crude.csv").set_index("pattern"); tr=R("trimester_results.csv").set_index("contrast")
+m("TriN",f0(tc.births.sum())); m("TriNever",f2(tc.loc["Never smoked","preterm_pct"])); m("TriFirst",f2(tc.loc["First trimester only","preterm_pct"]))
+m("TriFirstSecond",f2(tc.loc["First and second trimesters only","preterm_pct"])); m("TriAll",f2(tc.loc["All three trimesters","preterm_pct"])); m("TriLate",f2(tc.loc["Started after the first trimester","preterm_pct"]))
+m("TriLateN",f0(tc.loc["Started after the first trimester","births"]))
+def tri(k,nm):
+    r=tr.loc[k]; m(nm+"ATT",f2(r.ATT)); m(nm+"Lo",f2(r.ATT_lo)); m(nm+"Hi",f2(r.ATT_hi))
+tri("First trimester only vs never","TriA"); tri("First and second trimesters only vs never","TriB"); tri("All three trimesters vs never","TriC"); tri("Started after the first trimester vs never","TriD")
+dk=[k for k in tr.index if "cigarettes/day in 3rd" in k]
+for i,k in enumerate(dk): m("TriDose"+"ABCD"[i],f2(tr.loc[k,"ATT"])); m("TriDoseLo"+"ABCD"[i],f2(tr.loc[k,"ATT_lo"])); m("TriDoseHi"+"ABCD"[i],f2(tr.loc[k,"ATT_hi"]))
+m("TriDoseWideATE",f2(tr.loc[dk[3],"RD"])); m("TriDoseWideLo",f2(tr.loc[dk[3],"lo"])); m("TriDoseWideHi",f2(tr.loc[dk[3],"hi"]))
+def tl(k):
+    return (k.replace(", vs never","").replace(" vs never","").replace("Smoked all trimesters, ","All three trimesters, ").replace(" cigarettes/day in 3rd trimester,"," cigarettes per day in third trimester"))
+rows=[[esc(tl(r.Index)),f0(r.n_group),f2(r.crude_RD),f2(r.RD),f"{r.lo:.2f} to {r.hi:.2f}",f2(r.ATT),f"{r.ATT_lo:.2f} to {r.ATT_hi:.2f}"] for r in tr.itertuples()]
+table("tab_tri.tex",7,"Smoking pattern, each against never-smokers & Group size & Crude & ATE & 95\\% CI & ATT & 95\\% CI",rows,"lrrrrrr")
 # evalues and benchmark
 rows=[[esc(r.estimate),f2(r.risk_ratio),f2(r.E_value)] for r in ev.itertuples()]
 table("tab_ev.tex",3,"Estimate & Risk ratio & E-value",rows,"lrr")
@@ -177,3 +192,8 @@ table("tab_miss.tex",3,"Confounder & Births missing & \\% missing",rows,"lrr")
 rows=[["Kept (complete data)",f0(cc.loc[True,"births"]),f2(cc.loc[True,"pct_smokers"]),f2(cc.loc[True,"pct_preterm"])],["Dropped (any confounder missing)",f0(cc.loc[False,"births"]),f2(cc.loc[False,"pct_smokers"]),f2(cc.loc[False,"pct_preterm"])]]
 table("tab_cc.tex",4,"Group & Births & \\% smoked & \\% preterm",rows,"lrrr")
 print("tables written")
+_t=open(OUT+"tab_tri.tex").read(); open(OUT+"tab_tri.tex","w").write(re.sub(r"(?<=[ (])-(?=\d)","$-$",_t))
+
+for k in list(M):
+    if k.startswith("Tri") and M[k].startswith("-"): M[k]="$-$"+M[k][1:]
+open(OUT+"numbers.tex","w").write("\n".join(f"\\newcommand{{\\{k}}}{{{v}}}" for k,v in M.items())+"\n"); print(len(M),"macros (final)")

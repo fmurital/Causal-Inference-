@@ -33,7 +33,7 @@ At CSOL the analysis was a ten-script pipeline with a logistic-regression AIPTW 
 7. **Public-health translation.** The effect among smokers expressed as births per 1,000 pregnancies.
 8. **Code.** One script, `Smoking_Preterm_Full_Analysis.R`, now produces every table and figure, with seed 1234, and reads its data from this repository.
 
-Still to come: the trimester-of-smoking analysis, which needs the full national file (see [`../data/README.md`](../data/README.md)). It is not on either poster.
+Trimester of smoking: run after the posters were finalized, in Section 10 of the script, from the full national file (see [`../data/README.md`](../data/README.md)). The tables are `results/tables/trimester_crude.csv` and `trimester_results.csv`, and the results are in the journal paper. They are not on either poster.
 
 ## Folder contents
 

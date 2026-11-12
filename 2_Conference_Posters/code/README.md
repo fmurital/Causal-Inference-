@@ -25,6 +25,6 @@ The run takes about one to two hours on a computer with several cores; most of t
 | 7 | Variance: influence function against full-sample bootstrap |
 | 8 | Flexible models with cross-fitting |
 | 9 | Smoking history and cigarettes per day |
-| 10 | Trimester of smoking (needs the trimester file; see `../../data/README.md`) |
+| 10 | Trimester of smoking (reads the trimester file in `../../data`; see `../../data/README.md`) |
 | 11 | Unmeasured confounding (E-value and benchmarking) |
 | 12 | Public-health translation and final summary |
