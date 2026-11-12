@@ -5,7 +5,9 @@
 ##  TO RUN: select everything (Ctrl+A) and run (Ctrl+Enter), or click Source.
 ##  Both data files are downloaded from this GitHub repository on the first
 ##  run. Tables are written to results/tables and figures to results/figures.
-##  The random seed is 1234, so every run gives the same numbers.
+##  The random seed is 1234. Every number is reproduced exactly except the
+##  bootstrap standard error, which can differ in the third decimal (0.388 to 0.389)
+##  because the resamples are split across the computer's cores.
 ##
 ##  SECTIONS
 ##    1   Load the data, build the analytic cohort
