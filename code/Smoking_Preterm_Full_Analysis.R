@@ -811,7 +811,16 @@ read_full_raw <- function() {
     tryCatch(suppressWarnings(download.file(TRI_URL, TRI_GZ, mode = "wb", quiet = TRUE)), error = function(e) NULL)
     if (file.exists(TRI_GZ) && file.size(TRI_GZ) < 1e6) file.remove(TRI_GZ)     # an error page, not the data
   }
-  if (file.exists(TRI_GZ)) { step("Reading the compact trimester file ..."); return(fread(TRI_GZ, colClasses = list(character = CHAR_COLS))) }
+  if (file.exists(TRI_GZ)) {
+    step("Reading the compact trimester file ...")
+    TRI_CSV <- sub("\\.gz$", "", TRI_GZ)
+    if (!file.exists(TRI_CSV)) {                                           # base R decompression, works on Windows, Mac and Linux
+      inp <- gzfile(TRI_GZ, "rb"); out <- file(TRI_CSV, "wb")
+      repeat { chunk <- readBin(inp, "raw", 5e7); if (length(chunk) == 0) break; writeBin(chunk, out) }
+      close(inp); close(out)
+    }
+    return(fread(TRI_CSV, colClasses = list(character = CHAR_COLS)))
+  }
   loc <- find_full_file(); csv <- if (!is.null(loc) && grepl("\\.csv$", loc)) loc else NULL      # 2. the full NCHS file
   if (is.null(csv)) {
     zp <- if (!is.null(loc)) loc else FULL_ZIP
